@@ -31,25 +31,31 @@ mkdir -p $INSTALL_DIR
 
 echo "📋 Kopiowanie plików..."
 # Zakładam, że skrypt jest uruchamiany z głównego katalogu projektu
-cp scraper.py $INSTALL_DIR/
-cp view_data.py $INSTALL_DIR/
-cp create_table.py $INSTALL_DIR/
-cp requirements.txt $INSTALL_DIR/
-cp update_cookies.sh $INSTALL_DIR/
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cp $SCRIPT_DIR/scraper.py $INSTALL_DIR/
+cp $SCRIPT_DIR/view_data.py $INSTALL_DIR/
+cp $SCRIPT_DIR/create_table.py $INSTALL_DIR/
+cp $SCRIPT_DIR/requirements.txt $INSTALL_DIR/
+cp $SCRIPT_DIR/update_cookies.sh $INSTALL_DIR/
 chmod +x $INSTALL_DIR/update_cookies.sh
 
+# Kopiuj pliki systemd
+echo "📝 Kopiowanie plików systemd..."
+cp $SCRIPT_DIR/systemd/skool-scraper.service /etc/systemd/system/
+cp $SCRIPT_DIR/systemd/skool-scraper.timer /etc/systemd/system/
+
 # Sprawdź czy config.json istnieje
-if [ ! -f "config.json" ]; then
+if [ ! -f "$SCRIPT_DIR/config.json" ]; then
     echo "⚠️  Nie znaleziono config.json - kopiuję config.json.example"
-    if [ -f "config.json.example" ]; then
-        cp config.json.example $INSTALL_DIR/config.json
+    if [ -f "$SCRIPT_DIR/config.json.example" ]; then
+        cp $SCRIPT_DIR/config.json.example $INSTALL_DIR/config.json
         echo "⚠️  WAŻNE: Edytuj $INSTALL_DIR/config.json i dodaj swoje credentials!"
     else
         echo "❌ Nie znaleziono ani config.json ani config.json.example"
         exit 1
     fi
 else
-    cp config.json $INSTALL_DIR/
+    cp $SCRIPT_DIR/config.json $INSTALL_DIR/
     echo "✅ Skopiowano config.json"
 fi
 
@@ -61,10 +67,6 @@ echo "📦 Instalacja zależności Python..."
 source venv/bin/activate
 pip install --upgrade pip -q
 pip install -r requirements.txt -q
-
-echo "📝 Instalacja plików systemd..."
-cp systemd/skool-scraper.service /etc/systemd/system/
-cp systemd/skool-scraper.timer /etc/systemd/system/
 
 echo "🔄 Przeładowanie systemd..."
 systemctl daemon-reload
