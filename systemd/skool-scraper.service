@@ -1,0 +1,21 @@
+[Unit]
+Description=Skool Activity Scraper
+After=network.target
+
+[Service]
+Type=oneshot
+User=root
+WorkingDirectory=/opt/skool_scraper
+Environment="PATH=/opt/skool_scraper/venv/bin:/usr/local/bin:/usr/bin:/bin"
+ExecStart=/opt/skool_scraper/venv/bin/python /opt/skool_scraper/scraper.py
+
+# Logging
+StandardOutput=append:/var/log/skool-scraper.log
+StandardError=append:/var/log/skool-scraper-error.log
+
+# Restart policy
+Restart=on-failure
+RestartSec=30s
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,14 @@
+{
+  "cookies": {
+    "AWSALBCORS": "YOUR_AWSALBCORS_COOKIE",
+    "auth_token": "YOUR_AUTH_TOKEN_COOKIE",
+    "__stripe_mid": "YOUR_STRIPE_MID_COOKIE",
+    "__stripe_sid": "YOUR_STRIPE_SID_COOKIE",
+    "aws-waf-token": "YOUR_AWS_WAF_TOKEN_COOKIE",
+    "AWSALBTGCORS": "YOUR_AWSALBTGCORS_COOKIE",
+    "client_id": "YOUR_CLIENT_ID_COOKIE"
+  },
+  "url": "https://www.skool.com/YOUR-GROUP-NAME",
+  "database_url": "postgresql://user:password@host:port/database?sslmode=require",
+  "error_webhook": "https://your-webhook-url.com/webhook/endpoint"
+}

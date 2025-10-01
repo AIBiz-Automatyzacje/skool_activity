@@ -1,0 +1,14 @@
+[Unit]
+Description=Skool Activity Scraper Timer (runs every minute)
+Requires=skool-scraper.service
+
+[Timer]
+# Uruchom co minutę
+OnCalendar=*:0/1
+# Uruchom natychmiast jeśli timer był wyłączony podczas zaplanowanego uruchomienia
+Persistent=true
+# Dodaj losowe opóźnienie do 10 sekund aby uniknąć przeciążenia
+RandomizedDelaySec=10s
+
+[Install]
+WantedBy=timers.target
